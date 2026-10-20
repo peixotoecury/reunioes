@@ -949,7 +949,9 @@ function cardOutlook(){
 // ---------- envio da ata ----------
 let CFG={};
 const baseUrl=()=>location.origin+location.pathname;
-const linkAta=r=>baseUrl()+"#ata-"+r.id;
+// link enviado por e-mail: sempre o endereço publicado no GitHub Pages (nunca o arquivo local)
+const SITE_URL="https://peixotoecury.github.io/reunioes/";
+const linkAta=r=>(/^https:$/.test(location.protocol)&&/github\.io$/.test(location.hostname)?baseUrl():SITE_URL)+"#ata-"+r.id;
 const listaEmails=t=>String(t||"").split(/[;,\s]+/).map(x=>x.trim()).filter(x=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(x));
 function destinatarios(r){const m=new Map();[...listaEmails(r.emails),...listaEmails(CFG.emailsFixos)].forEach(e=>m.set(e.toLowerCase(),e));return[...m.values()]}
 function textoAta(r){const encs=E.filter(x=>x.reuniaoId===r.id);
